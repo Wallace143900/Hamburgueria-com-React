@@ -1,26 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CartModal } from "../../components/CartModal";
 import { Header } from "../../components/Header";
 import { ProductList } from "../../components/ProductList";
+import { Footer } from "../../components/Footer";
+import { api } from "../../components/services/api";
+
 
 export const HomePage = () => {
+   const localTodoList = localStorage.getItem("@MYALLLIST");
+   
    const [productList, setProductList] = useState([]);
-   const [cartList, setCartList] = useState([]);
+   const [cartList, setCartList] = useState(localTodoList ? JSON.parse(localTodoList) : []);
+   const [add, setAdd] = useState([]);
+   const [cartOpen, setCartOpen] = useState(false);
 
-   // useEffect montagem - carrega os produtos da API e joga em productList
-   // useEffect atualização - salva os produtos no localStorage (carregar no estado)
-   // adição, exclusão, e exclusão geral do carrinho
-   // renderizações condições e o estado para exibir ou não o carrinho
-   // filtro de busca
-   // estilizar tudo com sass de forma responsiva
+   useEffect(() => {
+      const getProductList = async () => {
+         try{
+            const { data } = await api.get("/products");
+            setProductList(data);
+         } 
+         catch (error) {
+            console.error("Erro ao buscar produtos:",error);
+         }
+      }
+      getProductList();
+   }, [])
+
+   useEffect(() => {
+      localStorage.setItem("@MYALLLIST", JSON.stringify(productList));
+   }, [productList]);
+
+   const addToCart = (product) => {
+      setCartList([...cartList, product]);
+   }
+
+
+   const clearCart = () => {
+      setCartList([]);
+   }
+
+   const removeCart = (productId) => {
+      const updatdCart = add.filter (({id}) => id !== productId);
+      setAdd(updatdCart);
+   }
+   
+   const closeCart = () => {
+      setCloseCart(false);
+   }
 
    return (
       <>
-         <Header />
+         <Header cartOpen={cartOpen} setCartOpen={setCartOpen}  cartItemCount={add.length}/>
          <main>
-            <ProductList productList={productList} />
-            <CartModal cartList={cartList} />
+            <ProductList productList={productList} add={add} setAdd={setAdd} addToCart={addToCart} />
+            { cartOpen ? <CartModal add={add} setAdd={setAdd} cartOpen={cartOpen} setCartOpen={setCartOpen}closeCart={closeCart} removeCart={removeCart} clearCart={clearCart} /> : null}
          </main>
+         <Footer />
       </>
    );
 };

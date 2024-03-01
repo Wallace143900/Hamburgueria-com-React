@@ -1,0 +1,21 @@
+.buttonMedium1 {
+    width: 8.125rem;
+    height: 2.5rem;
+    border-radius: .5rem;
+    padding: 0rem, 1.25rem, 0rem, 1.25rem;
+    gap: .625rem;
+    background-color: var(--grey-300);
+    border: var(--grey-300);
+    color: var(--grey-0);
+}
+
+.buttonMedium2 {
+    width: 8.125rem;
+    height: 2.5rem;
+    border-radius: .5rem;
+    padding: 0rem, 1.25rem, 0rem, 1.25rem;
+    gap: .625rem;
+    background-color: var(--color-primary);
+    color: var(--grey-0);
+    border: var(--color-primary);
+}
