@@ -10,9 +10,10 @@ export const HomePage = () => {
    const localTodoList = localStorage.getItem("@MYALLLIST");
    
    const [productList, setProductList] = useState([]);
-   const [cartList, setCartList] = useState(localTodoList ? JSON.parse(localTodoList) : []);
-   const [add, setAdd] = useState([]);
+   const [cartList, setCartList] = useState([]);
+   const [add, setAdd] = useState( localTodoList ? JSON.parse(localTodoList) : []);
    const [cartOpen, setCartOpen] = useState(false);
+   
 
    useEffect(() => {
       const getProductList = async () => {
@@ -28,8 +29,8 @@ export const HomePage = () => {
    }, [])
 
    useEffect(() => {
-      localStorage.setItem("@MYALLLIST", JSON.stringify(productList));
-   }, [productList]);
+      localStorage.setItem("@MYALLLIST", JSON.stringify(add));
+   }, [add]);
 
    const addToCart = (product) => {
       setCartList([...cartList, product]);
