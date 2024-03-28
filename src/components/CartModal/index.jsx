@@ -50,7 +50,7 @@ export const CartModal = ({ setCartOpen, add, setAdd }) => {
                <span className="Heading3">Total</span>
                <span className="body-600">{total.toLocaleString('pt-BR', { style: "currency", currency: "BRL"})}</span>
             </div>
-            <span className={styles.spanRemove} onClick={clearCart}>Remover todos</span>
+            <span  className ="Heading" id={styles.spanRemove} onClick={clearCart}>Remover todos</span>
          </div>
          </div>
       </div>
